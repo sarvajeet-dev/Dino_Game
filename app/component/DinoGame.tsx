@@ -14,8 +14,9 @@ export default function DinoGame() {
     useEffect(() => {
         const handleKeySpace = (event: KeyboardEvent) => {
             if (event.code === "Space" || event.code === "ArrowUp") {
-                velocity.current += 15;
-                setDinoY(velocity.current)
+                   setIsJumping(true); 
+                    velocity.current += 15;
+                    setDinoY(velocity.current)
             }
         }
 
@@ -34,13 +35,23 @@ export default function DinoGame() {
     useEffect(() => {
         const gameLoop = () => {
             console.log("game running");
+
+            velocity.current -= gravity ; 
             
-            if (isJumping) {
+            
 
-                velocity.current -= gravity;
-            }
+            setDinoY((currentY )  => {
+                let newY = currentY + velocity.current ; 
+                if(newY <= 0){
+                    newY = 0;
+                    velocity.current = 0;
+                    setIsJumping(false);
+                }   
+                return newY
+            })
 
-            setDinoY((currentY) => currentY + velocity.current)
+           
+
 
 
             requestAnimationFrame(gameLoop);
