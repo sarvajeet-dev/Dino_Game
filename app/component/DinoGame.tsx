@@ -22,7 +22,8 @@ export default function DinoGame() {
     useEffect(() => {
         const handleKeySpace = (event: KeyboardEvent) => {
             if (event.code === "Space" || event.code === "ArrowUp") {
-
+                setGameStatus(true)
+                
                 
 
                 setIsJumping(true);
@@ -46,13 +47,8 @@ export default function DinoGame() {
 
     useEffect(() => {
 
-        
-
-
         const gameLoop = () => {
             console.log("game running");
-
-
 
             velocity.current -= gravity;
             setObstacleX((obstacleX) => {
@@ -62,8 +58,6 @@ export default function DinoGame() {
                     obstacleX - 5;
 
                 }
-
-
 
 
                 return newX;
@@ -112,6 +106,7 @@ export default function DinoGame() {
 
                 if (isCollision) {
                     console.log("Game Over")
+
                     setGameStatus(false);
                     return;
                 }
@@ -119,21 +114,21 @@ export default function DinoGame() {
 
             }
 
-
-
-
             requestAnimationFrame(gameLoop);
         };
+        if (isgameStatus) {
+            requestAnimationFrame(gameLoop);
 
-        requestAnimationFrame(gameLoop);
+        }
 
-    }, []);
+
+    }, [isgameStatus]);
 
 
 
     return (
-        <>
-            <div className="relative h-[300px] w-[900px] overflow-hidden border-2 border-black bg-white">
+        <main className="flex flex-col items-center justify-center gap-8">
+            <div className=" relative h-[300px] w-[900px] overflow-hidden border-2 border-black bg-white">
 
                 {/* Dino */}
                 <div ref={dinoRef} className="absolute  left-[80px] text-5xl"
@@ -156,9 +151,15 @@ export default function DinoGame() {
                 <div className="absolute bottom-0 left-0 h-[2px] w-full bg-black" />
 
 
-               
+
 
             </div>
-        </>
+
+            {!isgameStatus && <div className="relative text-xl text-black" >
+                Press Space to Start the game
+            </div>}
+
+
+        </main>
     )
 }
